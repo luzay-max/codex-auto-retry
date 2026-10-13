@@ -1,0 +1,42 @@
+name: Bug report
+description: Report a detection, click, settings, or compatibility problem
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: "Please redact logs and screenshots to remove tokens, project details, personal paths and private chat content. / 请删除隐私信息。"
+  - type: input
+    id: environment
+    attributes:
+      label: Environment / 环境
+      description: Windows version, VS Code version, Codex extension version, AutoHotkey v2 version
+      placeholder: "Windows 11, VS Code ..., Codex ..., AHK v2 ..."
+    validations:
+      required: true
+  - type: dropdown
+    id: window
+    attributes:
+      label: VS Code window state
+      options: ["Foreground", "Background (covered)", "Minimized", "Other"]
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce / 复现步骤
+      placeholder: "1. Bind with F10... 2. Test with F9... 3. ..."
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Expected vs actual result / 预期与实际
+      placeholder: "State shown (NO_BUTTON, SENT, etc.) and whether Codex actually retried"
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Redacted log excerpt (optional)
+      description: Never paste raw logs containing secrets.
