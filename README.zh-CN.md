@@ -1,13 +1,14 @@
-# Codex Auto Retry（Codex 自动重试）
+# Codex Auto Retry · Codex 自动重试
 
-[English](README.md) · [MIT 许可证](LICENSE)
+[![Windows](https://img.shields.io/badge/Windows-10%20%2F%2011-0078D4?logo=windows)](https://github.com/luzay-max/codex-auto-retry)
+[![AutoHotkey v2](https://img.shields.io/badge/AutoHotkey-v2-2D9F4C)](https://www.autohotkey.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-这是一个运行在 **Windows + VS Code + Codex** 环境中的自动重试小工具。
-当 Codex 出现 `Selected model is at capacity` 报错时，通过 Windows UI Automation
-识别相应的 `Retry` 按钮，并尝试用 AutoHotkey `ControlClick ... NA` 在后台点击。
+**Windows 下 VS Code 的 OpenAI Codex 容量报错自动重试工具。** 当出现 `Selected model is at capacity` 时，尝试在后台点击 `Retry`。支持锁定 VS Code 窗口、自定义每分钟最大重试次数、最短点击间隔和总次数。
 
-> **非官方社区项目**，与 OpenAI、微软无隶属或官方合作关系。
-> 它只负责自动尝试重试，无法解决服务器容量不足。
+**[下载 ZIP 源码包](https://github.com/luzay-max/codex-auto-retry/archive/refs/heads/main.zip)** · [快速开始](#使用方法) · [English](README.md) · [反馈问题](https://github.com/luzay-max/codex-auto-retry/issues/new/choose)
+
+> **非官方社区项目。** 与 OpenAI、微软无隶属或官方合作关系。发送点击不代表 Codex 实际成功重试，也无法解决服务器容量不足。
 
 ## 功能
 
@@ -22,6 +23,22 @@
 识别按钮，或不接受后台点击；VS Code 最小化时不支持。
 提示 `SENT` 仅代表发送了点击消息，**不代表 Codex 一定实际重试成功**。
 
+## 工作原理
+
+```mermaid
+flowchart TD
+    A["锁定 VS Code 窗口"] --> B["扫描 Windows UI Automation"]
+    B --> C{"找到容量报错和 Retry 按钮？"}
+    C -->|否| B
+    C -->|是| D{"点击频率和次数未超限？"}
+    D -->|否| B
+    D -->|是| E["尝试发送 ControlClick NA 后台点击"]
+    E --> F["记录尝试并检查是否抢焦点"]
+    F --> B
+```
+
+**静默后台点击仍属于实验性功能。** 目标 VS Code 必须保持显示且不能最小化；Chromium 可能忽略点击消息，因此脚本不会声称每次点击都成功。
+
 ## 系统要求
 
 - Windows 10/11
@@ -32,6 +49,9 @@
 通常不需要管理员权限。
 
 ## 使用方法
+
+先[下载仓库 ZIP 源码包](https://github.com/luzay-max/codex-auto-retry/archive/refs/heads/main.zip)并解压，然后按照下面步骤运行。正式 GitHub Release 创建后也会提供对应入口。
+
 
 1. 将 `CodexAutoRetry.ahk` 和 `UiaRetry.ps1` 放在同一**可写**目录。
 2. 可选：将 `settings.example.ini` 复制为 `settings.ini`。不复制也能使用默认值。
@@ -82,6 +102,10 @@
 - 出现多个脚本：请退出旧版本，避免重复点击。
 
 请合理设置重试频率。频繁重试不能扩大 OpenAI 服务器容量，也不应尝试绕过服务限制。
+
+## 参与开源
+
+欢迎通过 [Issues](https://github.com/luzay-max/codex-auto-retry/issues/new/choose) 提交兼容性问题或功能建议，也欢迎 PR。请阅读 [贡献指南](CONTRIBUTING.md)。公开截图、日志前请先清理 Token、个人路径、对话内容和项目资料。
 
 ## 开源许可
 
