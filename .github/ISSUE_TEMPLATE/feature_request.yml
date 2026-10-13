@@ -1,0 +1,23 @@
+name: Feature request
+description: Suggest an enhancement or compatibility improvement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / 使用场景
+      description: What current limitation would the change solve?
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Proposed solution / 建议方案
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Safety / compatibility considerations
+      description: Consider background focus, rate limits, and Electron compatibility.
