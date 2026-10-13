@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: README / 使用说明
+    url: https://github.com/luzay-max/codex-auto-retry#readme
+    about: Read setup and troubleshooting information first.
