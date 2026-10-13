@@ -1,0 +1,17 @@
+# Per-user settings and local logs
+settings.ini
+retry.log
+*.log
+
+# Temporary or compiled output
+*.tmp
+*.bak
+*.exe
+*.zip
+
+# Editor/OS clutter
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
