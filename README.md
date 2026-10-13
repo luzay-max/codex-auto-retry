@@ -1,14 +1,14 @@
 # Codex Auto Retry
 
-[简体中文](README.zh-CN.md) · [MIT License](LICENSE)
+[![Windows](https://img.shields.io/badge/Windows-10%20%2F%2011-0078D4?logo=windows)](https://github.com/luzay-max/codex-auto-retry)
+[![AutoHotkey v2](https://img.shields.io/badge/AutoHotkey-v2-2D9F4C)](https://www.autohotkey.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A lightweight, configurable auto-retry helper for **OpenAI Codex in VS Code on Windows**.
-It detects the `Selected model is at capacity` message and an associated **Retry**
-button through Windows UI Automation, then *attempts* a background click with
-AutoHotkey `ControlClick` and the `NA` option.
+**Automatically retry OpenAI Codex's `Selected model is at capacity` errors in Visual Studio Code on Windows.** This open-source AutoHotkey tool supports experimental background Retry clicks, configurable rate limits, and a pinned VS Code window.
 
-> **Unofficial community project.** Not affiliated with or endorsed by OpenAI
-> or Microsoft. This utility cannot increase server-side model availability.
+**[Download ZIP (source)](https://github.com/luzay-max/codex-auto-retry/archive/refs/heads/main.zip)** · [Quick start](#quick-start) · [中文文档](README.zh-CN.md) · [Report a bug](https://github.com/luzay-max/codex-auto-retry/issues/new/choose)
+
+> **Unofficial community project.** Not affiliated with or endorsed by OpenAI or Microsoft. This tool cannot increase server capacity, and a sent click is not proof of a successful retry.
 
 ## Features
 
@@ -28,6 +28,22 @@ a background click, or the application may still take focus. Minimized windows
 are not supported. `SENT` means a click message was sent, **not** that Codex
 actually retried.
 
+## How it works
+
+```mermaid
+flowchart TD
+    A["Pin a VS Code window"] --> B["Scan its accessibility tree"]
+    B --> C{"Capacity error and Retry button found?"}
+    C -->|No| B
+    C -->|Yes| D{"Within click limits?"}
+    D -->|No| B
+    D -->|Yes| E["Try ControlClick NA without activating VS Code"]
+    E --> F["Log attempt and watch for focus changes"]
+    F --> B
+```
+
+**Background clicking is experimental.** The button must be visible in the pinned, non-minimized VS Code window. If Chromium ignores the click, the tool does not claim success.
+
 ## Requirements
 
 - Windows 10 or 11
@@ -38,6 +54,9 @@ actually retried.
 No administrator privileges should normally be needed.
 
 ## Quick start
+
+You can [download the repository as a ZIP](https://github.com/luzay-max/codex-auto-retry/archive/refs/heads/main.zip), extract it, and follow these steps. A GitHub Release download will be linked here once an official release is published.
+
 
 1. Download the source files (`CodexAutoRetry.ahk` and `UiaRetry.ps1`) into
    the **same writable directory**.
@@ -102,6 +121,10 @@ can cause unnecessary traffic. The tool only targets an already visible,
 enabled UI Automation button named `Retry`, adjacent to a matching capacity
 message, in the pinned VS Code window. It does not bypass authentication,
 service restrictions, or rate limits.
+
+## Community
+
+Bug reports, compatibility feedback, and pull requests are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and use the [issue templates](https://github.com/luzay-max/codex-auto-retry/issues/new/choose). Never upload raw logs or screenshots containing private project details, tokens, or conversation content.
 
 ## License
 
